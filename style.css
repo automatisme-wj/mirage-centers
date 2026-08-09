@@ -53,6 +53,11 @@ body {
   height: 100%;
 }
 
+/* La vidéo doit couvrir toute la surface, quitte à être recadrée un peu */
+#gradient-video {
+  object-fit: cover;
+}
+
 /* Fallback gradient très discret, pour quand la vidéo ne charge pas */
 #gradient-fallback {
   background:
