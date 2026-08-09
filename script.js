@@ -59,14 +59,15 @@ function loadDailySelection() {
   }
 }
 
-// Sleep mode entièrement désactivé pour l’instant
+// Sleep mode : uniquement entre 2h et 6h du matin (heure locale du navigateur)
 function isSleepTime(now = new Date()) {
-  return false;
+  const hour = now.getHours(); // 0–23, heure locale[web:302]
+  return (hour >= 2 && hour < 6);
 }
 
 function setSleepMode(active) {
   if (active) {
-    // Sleep (pour plus tard) — pour l’instant on ne l’utilise pas
+    // Sleep : bouton désactivé, panneau sleep visible, aucun média chargé
     playButton.disabled = true;
     playButton.textContent = "Sleep mode";
     sleepMessageEl.classList.remove("hidden");
@@ -87,7 +88,6 @@ function setSleepMode(active) {
 let selectedIndex = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Forcer le site en mode online
   const sleep = isSleepTime(new Date());
   setSleepMode(sleep);
 
@@ -105,8 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Bouton Play : lancer vidéo + audio
+  // Bouton Play : lancer vidéo + audio (si pas en sleep)
   playButton.addEventListener("click", async () => {
+    // Sécurité : ne rien faire si sleep est actif au moment du clic
+    if (isSleepTime(new Date())) {
+      setSleepMode(true);
+      return;
+    }
+
     if (selectedIndex == null) {
       selectedIndex = loadDailySelection();
     }
