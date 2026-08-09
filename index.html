@@ -1,1 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mirage Centers – Automatisme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mirage Centers is a low‑tech static web artwork by Automatisme. One generative audiovisual piece per day.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <!-- Vidéo / gradient plein écran -->
+    <section id="visual-layer" aria-label="Daily gradient video">
+      <video id="gradient-video"
+             playsinline
+             muted
+             loop
+             preload="none"></video>
+      <!-- Fallback CSS si la vidéo ne se charge pas -->
+      <div id="gradient-fallback"></div>
+    </section>
 
+    <!-- Barre de contrôle minimaliste -->
+    <header id="top-bar">
+      <button id="info-toggle" type="button" aria-expanded="false" aria-controls="statement">
+        Info
+      </button>
+
+      <button id="play-button" type="button">
+        Play
+      </button>
+    </header>
+
+    <!-- Texte online (cartel), repliable -->
+    <section id="statement" aria-label="Artwork statement">
+      <h1>Mirage Centers</h1>
+
+      <p>
+        Mirage Centers is a low-tech static web page by William Jourdain, the Canadian artist working under the moniker of Automatisme.
+        Each day, one generative audiovisual piece is selected from a limited set.
+      </p>
+
+      <p>
+        Built from archival recordings of data centers, this work turns the physical cloud into a frugal and sustainable environment.
+      </p>
+
+      <p>
+        One configuration per day. No feed. No catalogue. Limited resources. Deliberate playback.
+      </p>
+
+      <p>
+        Mirage Centers enters sleep mode at night. Why should the internet be online 24/7?
+      </p>
+    </section>
+
+    <!-- Texte Sleep mode, affiché la nuit -->
+    <section id="sleep-message" aria-label="Sleep mode message">
+      <h2>Sleep mode.</h2>
+
+      <p>Mirage Centers is currently offline.</p>
+
+      <p>
+        This is a low-tech static web page by William Jourdain, the Canadian artist working under the moniker of Automatisme.
+      </p>
+
+      <p>
+        This work is not available at all times. During sleep hours, audio and video are not loaded.
+        The site will return later with the day’s configuration.
+      </p>
+
+      <p>A small pause for lighter infrastructure.</p>
+
+      <p>Come back later.<br>xoxo</p>
+    </section>
+
+    <!-- Audio en boucle, sans contrôle natif -->
+    <audio id="audio-pad" loop preload="none"></audio>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
