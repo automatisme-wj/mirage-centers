@@ -24,8 +24,8 @@ const AUDIO_PATHS = [
 
 // Plage horaire de sleep (heure locale)
 // Ici : de 23h00 à 07h00
-const SLEEP_START_HOUR = 23;
-const SLEEP_END_HOUR = 7;
+const SLEEP_START_HOUR = 1;
+const SLEEP_END_HOUR = 6;
 
 const STORAGE_KEY = "mirageCentersDailySelection";
 
