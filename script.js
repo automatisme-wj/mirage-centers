@@ -1,4 +1,4 @@
-// Chemins vers tes 8 vidéos et 8 audios
+// Chemins vers tes vidéos et audios
 const VIDEO_PATHS = [
   "assets/video/gradient01.mp4",
   "assets/video/gradient02.mp4",
@@ -19,16 +19,9 @@ const AUDIO_PATHS = [
   "assets/audio/gradientadata06.m4a",
   "assets/audio/gradientadata07.m4a",
   "assets/audio/gradientadata08.m4a"
-  "assets/audio/gradientadata09.m4a"
 ];
 
-function isSleepTime(now = new Date()) {
-  // Sleep mode désactivé pour les tests
-  return false;
-}
-
-const STORAGE_KEY = "mirageCentersDailySelection";
-
+// Clés DOM
 const videoEl = document.getElementById("gradient-video");
 const fallbackEl = document.getElementById("gradient-fallback");
 const audioEl = document.getElementById("audio-pad");
@@ -37,12 +30,8 @@ const infoToggle = document.getElementById("info-toggle");
 const statementEl = document.getElementById("statement");
 const sleepMessageEl = document.getElementById("sleep-message");
 
-// --- Utils ---
-
-function isSleepTime(now = new Date()) {
-  const hour = now.getHours();
-  return (hour >= SLEEP_START_HOUR) || (hour < SLEEP_END_HOUR);
-}
+// Sélection quotidienne (via localStorage)
+const STORAGE_KEY = "mirageCentersDailySelection";
 
 function getTodayKey() {
   const now = new Date();
@@ -70,8 +59,14 @@ function loadDailySelection() {
   }
 }
 
+// Sleep mode entièrement désactivé pour l’instant
+function isSleepTime(now = new Date()) {
+  return false;
+}
+
 function setSleepMode(active) {
   if (active) {
+    // Sleep (pour plus tard) — pour l’instant on ne l’utilise pas
     playButton.disabled = true;
     playButton.textContent = "Sleep mode";
     sleepMessageEl.classList.remove("hidden");
@@ -79,28 +74,26 @@ function setSleepMode(active) {
     videoEl.removeAttribute("src");
     audioEl.removeAttribute("src");
   } else {
+    // Online
     playButton.disabled = false;
     playButton.textContent = "Play";
     sleepMessageEl.classList.add("hidden");
-    // Le statement est contrôlé séparément par Info
+    statementEl.classList.remove("hidden");
   }
 }
 
-let selectedIndex = null;
-
 // --- Initialisation ---
 
-document.addEventListener("DOMContentLoaded", () => {
-  const now = new Date();
-  const sleep = isSleepTime(now);
-  setSleepMode(sleep);
+let selectedIndex = null;
 
-  // Online: statement visible, sleep caché
-  statementEl.classList.remove("hidden");
-  sleepMessageEl.classList.add("hidden");
+document.addEventListener("DOMContentLoaded", () => {
+  // Forcer le site en mode online
+  const sleep = isSleepTime(new Date());
+  setSleepMode(sleep);
 
   selectedIndex = loadDailySelection();
 
+  // Bouton Info : cacher / montrer le cartel
   infoToggle.addEventListener("click", () => {
     const isHidden = statementEl.classList.contains("hidden");
     if (isHidden) {
@@ -112,13 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Bouton Play : lancer vidéo + audio
   playButton.addEventListener("click", async () => {
-    const nowPlay = new Date();
-    if (isSleepTime(nowPlay)) {
-      setSleepMode(true);
-      return;
-    }
-
     if (selectedIndex == null) {
       selectedIndex = loadDailySelection();
     }
@@ -126,16 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoSrc = VIDEO_PATHS[selectedIndex];
     const audioSrc = AUDIO_PATHS[selectedIndex];
 
-    // Assigner les sources au moment du Play (pas avant)
+    // Assigner les sources au moment du Play
     videoEl.src = videoSrc;
     videoEl.load();
 
     audioEl.src = audioSrc;
     audioEl.load();
 
-    // Fallback CSS disparaît quand la vidéo commence
+    // Masquer le fallback dès que la vidéo joue
     videoEl.addEventListener("playing", () => {
-      fallbackEl.style.display = "none";
+      if (fallbackEl) {
+        fallbackEl.style.display = "none";
+      }
     }, { once: true });
 
     try {
