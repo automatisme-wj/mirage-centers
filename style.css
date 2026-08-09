@@ -1,1 +1,163 @@
+:root {
+  /* Couleurs de base : fond clair, texte foncé */
+  --bg: #f5f1e9;           /* Beige très clair, proche de l'UI Firefox */
+  --fg: #222222;           /* Texte principal foncé */
+  --panel-bg: #ffffff;     /* Panneaux (cartels) blancs */
+  --border-soft: #d0ccc4;  /* Bordures très douces */
+  --overlay: rgba(0, 0, 0, 0.08);
 
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+}
+
+body {
+  display: flex;
+}
+
+#app {
+  position: relative;
+  flex: 1;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Vidéo / gradient plein écran */
+
+#visual-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* La vidéo occupe tout l'écran, sous les panneaux */
+#gradient-video,
+#gradient-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fallback gradient très discret, pour quand la vidéo ne charge pas */
+#gradient-fallback {
+  background:
+    radial-gradient(circle at 20% 0%, #ded9cf, #cfc7ba 40%, #bfb7a9 90%);
+}
+
+/* Barre supérieure : Info + Play */
+
+#top-bar {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+/* Boutons : rectangles sobres, fond clair, bordure douce */
+
+#top-bar button {
+  border: 1px solid var(--border-soft);
+  background: var(--panel-bg);
+  color: var(--fg);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#top-bar button:hover {
+  background: #f0ece4;
+}
+
+/* Statement (cartel online) */
+
+#statement {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 40vh;
+  padding: 0.9rem 1.2rem 1.5rem;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border-soft);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  z-index: 9;
+}
+
+#statement h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
+/* Classe pour cacher le cartel (bouton Info) */
+
+#statement.hidden {
+  display: none;
+}
+
+/* Sleep mode (panneau similaire) */
+
+#sleep-message {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 40vh;
+  padding: 0.9rem 1.2rem 1.5rem;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border-soft);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  z-index: 9;
+}
+
+/* Classe pour cacher le sleep message en mode online */
+
+#sleep-message.hidden {
+  display: none;
+}
+
+/* Typo de base dans les panneaux */
+
+#statement p,
+#sleep-message p {
+  margin: 0 0 0.75rem 0;
+}
+
+/* Mobile : taille légèrement réduite */
+
+@media (max-width: 640px) {
+  #statement,
+  #sleep-message {
+    font-size: 0.85rem;
+  }
+
+  #top-bar button {
+    font-size: 0.8rem;
+  }
+}
