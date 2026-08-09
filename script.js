@@ -22,10 +22,10 @@ const AUDIO_PATHS = [
   "assets/audio/gradientadata09.m4a"
 ];
 
-// Plage horaire de sleep (heure locale)
-// Ici : de 01h00 à 08h00
-const SLEEP_START_HOUR = 1;
-const SLEEP_END_HOUR = 8;
+function isSleepTime(now = new Date()) {
+  // Sleep mode désactivé pour les tests
+  return false;
+}
 
 const STORAGE_KEY = "mirageCentersDailySelection";
 
