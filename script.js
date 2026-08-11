@@ -45,17 +45,31 @@ function loadDailySelection() {
 
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed.date === today && typeof parsed.index === "number") {
-        return parsed.index;
+
+      if (
+        parsed.date === today &&
+        typeof parsed.videoIndex === "number" &&
+        typeof parsed.audioIndex === "number"
+      ) {
+        return parsed;
       }
     }
 
-    const index = Math.floor(Math.random() * VIDEO_PATHS.length);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: today, index }));
-    return index;
+    const selection = {
+      date: today,
+      videoIndex: Math.floor(Math.random() * VIDEO_PATHS.length),
+      audioIndex: Math.floor(Math.random() * AUDIO_PATHS.length)
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(selection));
+    return selection;
   } catch (e) {
     console.warn("Daily selection storage failed:", e);
-    return Math.floor(Math.random() * VIDEO_PATHS.length);
+
+    return {
+      videoIndex: Math.floor(Math.random() * VIDEO_PATHS.length),
+      audioIndex: Math.floor(Math.random() * AUDIO_PATHS.length)
+    };
   }
 }
 
@@ -85,13 +99,13 @@ function setSleepMode(active) {
 
 // --- Initialisation ---
 
-let selectedIndex = null;
+let selectedSelection = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   const sleep = isSleepTime(new Date());
   setSleepMode(sleep);
 
-  selectedIndex = loadDailySelection();
+  selectedSelection = loadDailySelection();
 
   // Bouton Info : cacher / montrer le cartel
   infoToggle.addEventListener("click", () => {
@@ -113,12 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (selectedIndex == null) {
-      selectedIndex = loadDailySelection();
-    }
+    if (selectedSelection == null) {
+  selectedSelection = loadDailySelection();
+}
 
-    const videoSrc = VIDEO_PATHS[selectedIndex];
-    const audioSrc = AUDIO_PATHS[selectedIndex];
+const videoSrc = VIDEO_PATHS[selectedSelection.videoIndex];
+const audioSrc = AUDIO_PATHS[selectedSelection.audioIndex];
 
     // Assigner les sources au moment du Play
     videoEl.src = videoSrc;
