@@ -81,17 +81,24 @@ function isSleepTime(now = new Date()) {
 
 function setSleepMode(active) {
   if (active) {
-    // Sleep : bouton désactivé, panneau sleep visible, aucun média chargé
+    // Sleep : bouton Play désactivé, Info désactivé, panneau sleep visible, aucun média chargé
     playButton.disabled = true;
     playButton.textContent = "Sleep mode";
+
+    infoToggle.disabled = true; // désactiver le bouton Info en veille
+
     sleepMessageEl.classList.remove("hidden");
     statementEl.classList.add("hidden");
+
     videoEl.removeAttribute("src");
     audioEl.removeAttribute("src");
   } else {
-    // Online
+    // Online : bouton Play actif, Info actif, panneau sleep caché, cartel visible
     playButton.disabled = false;
     playButton.textContent = "Play";
+
+    infoToggle.disabled = false; // réactiver le bouton Info
+
     sleepMessageEl.classList.add("hidden");
     statementEl.classList.remove("hidden");
   }
