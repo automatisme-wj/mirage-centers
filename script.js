@@ -166,6 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
       await audioEl.play();
       playButton.textContent = "Playing";
       hasStartedPlayback = true; // à partir de maintenant, le bouton ne fait plus rien
+            // Une fois que ça joue, on bloque le clic droit sur la vidéo (Firefox)
+      videoEl.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
     } catch (err) {
       console.error("Playback failed:", err);
       playButton.textContent = "Play";
