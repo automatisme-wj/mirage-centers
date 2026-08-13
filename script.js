@@ -75,7 +75,7 @@ function loadDailySelection() {
 
 // Sleep mode : uniquement entre 2h et 6h du matin (heure locale du navigateur)
 function isSleepTime(now = new Date()) {
-  const hour = now.getHours(); // 0–23, heure locale[web:302]
+  const hour = now.getHours(); // 0–23, heure locale
   return (hour >= 2 && hour < 6);
 }
 
@@ -107,7 +107,7 @@ function setSleepMode(active) {
 // --- Initialisation ---
 
 let selectedSelection = null;
-let hasStartedPlayback = false; // état: la lecture a déjà démarré ou non
+let hasStartedPlayback = false;  // <-- ajout
 
 document.addEventListener("DOMContentLoaded", () => {
   const sleep = isSleepTime(new Date());
@@ -127,9 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-   // Bouton Play : lancer vidéo + audio (si pas en sleep)
+  // Bouton Play : lancer vidéo + audio (si pas en sleep)
   playButton.addEventListener("click", async () => {
-    // Si la lecture a déjà démarré, ne rien faire (bouton visuellement cliquable mais inactif)
+    // Si la lecture a déjà démarré, ne rien faire
     if (hasStartedPlayback) {
       return;
     }
@@ -165,9 +165,10 @@ document.addEventListener("DOMContentLoaded", () => {
       await videoEl.play();
       await audioEl.play();
       playButton.textContent = "Playing";
-      hasStartedPlayback = true;  // à partir de maintenant, les clics ne font plus rien
+      hasStartedPlayback = true; // à partir de maintenant, le bouton ne fait plus rien
     } catch (err) {
       console.error("Playback failed:", err);
       playButton.textContent = "Play";
     }
   });
+});
