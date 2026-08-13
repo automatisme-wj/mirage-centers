@@ -138,6 +138,7 @@ body {
   background: var(--panel-bg);
   border-top: 1px solid var(--border-soft);
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;   /* <-- ajout */
   font-size: 0.9rem;
   line-height: 1.5;
   z-index: 9;
