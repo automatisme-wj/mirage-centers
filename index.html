@@ -12,10 +12,11 @@
     <!-- Vidéo / gradient plein écran -->
     <section id="visual-layer" aria-label="Daily gradient video">
       <video id="gradient-video"
-             playsinline
-             muted
-             loop
-             preload="none"></video>
+       playsinline
+       muted
+       loop
+       preload="metadata"
+       oncontextmenu="return false;"></video>
       <!-- Fallback CSS si la vidéo ne se charge pas -->
       <div id="gradient-fallback"></div>
     </section>
@@ -84,7 +85,9 @@
 </section>
 
     <!-- Audio en boucle, sans contrôle natif -->
-    <audio id="audio-pad" loop preload="none"></audio>
+    <audio id="audio-pad"
+       loop
+       preload="metadata"></audio>
   </main>
 
   <script src="script.js"></script>
