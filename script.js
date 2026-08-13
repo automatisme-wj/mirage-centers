@@ -30,6 +30,11 @@ const infoToggle = document.getElementById("info-toggle");
 const statementEl = document.getElementById("statement");
 const sleepMessageEl = document.getElementById("sleep-message");
 
+videoEl.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
+
 // Sélection quotidienne (via localStorage)
 const STORAGE_KEY = "mirageCentersDailySelection";
 
