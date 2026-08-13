@@ -107,6 +107,7 @@ function setSleepMode(active) {
 // --- Initialisation ---
 
 let selectedSelection = null;
+let hasStartedPlayback = false; // état: la lecture a déjà démarré ou non
 
 document.addEventListener("DOMContentLoaded", () => {
   const sleep = isSleepTime(new Date());
@@ -126,8 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Bouton Play : lancer vidéo + audio (si pas en sleep)
+   // Bouton Play : lancer vidéo + audio (si pas en sleep)
   playButton.addEventListener("click", async () => {
+    // Si la lecture a déjà démarré, ne rien faire (bouton visuellement cliquable mais inactif)
+    if (hasStartedPlayback) {
+      return;
+    }
+
     // Sécurité : ne rien faire si sleep est actif au moment du clic
     if (isSleepTime(new Date())) {
       setSleepMode(true);
@@ -135,11 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (selectedSelection == null) {
-  selectedSelection = loadDailySelection();
-}
+      selectedSelection = loadDailySelection();
+    }
 
-const videoSrc = VIDEO_PATHS[selectedSelection.videoIndex];
-const audioSrc = AUDIO_PATHS[selectedSelection.audioIndex];
+    const videoSrc = VIDEO_PATHS[selectedSelection.videoIndex];
+    const audioSrc = AUDIO_PATHS[selectedSelection.audioIndex];
 
     // Assigner les sources au moment du Play
     videoEl.src = videoSrc;
@@ -159,9 +165,9 @@ const audioSrc = AUDIO_PATHS[selectedSelection.audioIndex];
       await videoEl.play();
       await audioEl.play();
       playButton.textContent = "Playing";
+      hasStartedPlayback = true;  // à partir de maintenant, les clics ne font plus rien
     } catch (err) {
       console.error("Playback failed:", err);
       playButton.textContent = "Play";
     }
   });
-});
