@@ -53,9 +53,11 @@ body {
   height: 100%;
 }
 
-/* La vidéo doit couvrir toute la surface, quitte à être recadrée un peu */
+/* La vidéo doit couvrir toute la surface, quitte à être recadrée un peu
+   et ne pas recevoir de clics (Firefox ne montre plus le menu vidéo) */
 #gradient-video {
   object-fit: cover;
+  pointer-events: none;
 }
 
 /* Fallback gradient très discret, pour quand la vidéo ne charge pas */
