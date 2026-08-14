@@ -18,7 +18,8 @@ const AUDIO_PATHS = [
   "assets/audio/gradientadata05.m4a",
   "assets/audio/gradientadata06.m4a",
   "assets/audio/gradientadata07.m4a",
-  "assets/audio/gradientadata08.m4a"
+  "assets/audio/gradientadata08.m4a",
+  "assets/audio/gradientadata09.m4a"
 ];
 
 // Clés DOM
